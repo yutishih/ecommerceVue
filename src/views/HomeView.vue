@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import homeFeaturedItems from "@/assets/HomeFeaturedItems.json";
+import HomeCarousel from "../components/HomeCarousel.vue";
+import ProductVest from "../components/ProductVest.vue";
 </script>
 
 <template>
@@ -16,26 +17,12 @@ import homeFeaturedItems from "@/assets/HomeFeaturedItems.json";
         </div>
       </div>
     </div>
-    <div class="home-featured-category">
-      <div class="featured-category-wrap">
-        <ul>
-          <li v-for="item in homeFeaturedItems" :key="item.name">
-            <a :href="item.linkUrl">
-              <div
-                class="featured-category-item"
-                :style="{ 'background-image': 'url(' + item.imageUrl + ')' }"
-              >
-                <h4>{{ item.name }}</h4>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <HomeCarousel />
+    <ProductVest />
   </div>
 </template>
 
-<style>
+<style scoped>
 .main-banner-img {
   position: relative;
   background-image: url(../assets/test1.jpg);
@@ -71,17 +58,5 @@ import homeFeaturedItems from "@/assets/HomeFeaturedItems.json";
   color: #111;
   background-color: #fff;
   transition: 0.25s ease-in;
-}
-.featured-category-item {
-}
-.featured-category-wrap ul {
-  display: flex;
-}
-.featured-category-wrap ul li {
-  list-style: none;
-}
-.featured-category-wrap ul li a {
-  text-decoration: none;
-  color: #fff;
 }
 </style>
