@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import vest from "@/assets/Vest.json";
+import pants from "@/assets/Pants.json";
 </script>
 
 <template>
-  <div class="product-section-1">
+  <div class="product-section-2">
     <div class="product-width">
       <div class="product-wrap">
-        <div class="product-item" v-for="item in vest" :key="item.product">
+        <div class="product-item" v-for="item in pants" :key="item.product">
           <div class="coming-soon-tag" v-if="item.comingsoon">COMING SOON</div>
           <img :src="item.image" />
           <div class="text-wrap">
@@ -15,7 +15,7 @@ import vest from "@/assets/Vest.json";
           </div>
         </div>
       </div>
-      <div class="product-button"><a>VIEW COLLECTION</a></div>
+      <!-- <div class="product-button"><a>VIEW COLLECTION</a></div> -->
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ import vest from "@/assets/Vest.json";
 .product-wrap {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 2rem 1rem;
+  gap: 2rem 4rem;
 }
 
 .product-item {

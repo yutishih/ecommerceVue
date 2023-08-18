@@ -35,15 +35,11 @@ const breakpoints = ref({
         v-bind="settings"
         :wrap-around="true"
         :breakpoints="breakpoints"
-        @click.prevent
+        :mouseDrag="false"
       >
-        <Slide
-          v-for="slide in homeFeaturedItems"
-          :key="slide.name"
-          @click.prevent
-        >
+        <Slide v-for="slide in homeFeaturedItems" :key="slide.name">
           <div class="carousel__item">
-            <a :href="slide.linkUrl" @click.prevent>
+            <a :href="slide.linkUrl">
               <div
                 class="featured-category-item"
                 :style="{
@@ -97,9 +93,5 @@ const breakpoints = ref({
   text-decoration: none;
   color: #fff;
   font-size: 24px;
-}
-svg.carousel__icon {
-  color: #fff;
-  z-index: 10;
 }
 </style>

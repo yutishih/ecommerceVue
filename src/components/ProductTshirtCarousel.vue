@@ -1,0 +1,95 @@
+<script setup lang="ts">
+import { effect, ref } from "vue";
+import Tshirts from "@/assets/Tshirts.json";
+
+import { defineComponent } from "vue";
+import { Carousel, Navigation, Slide } from "vue3-carousel";
+import "vue3-carousel/dist/carousel.css";
+
+const name = "Breakpoints";
+const components = {
+  Carousel,
+  Slide,
+  Navigation,
+};
+
+const settings = ref({
+  itemsToShow: 1,
+  snapAlign: "center",
+});
+
+const breakpoints = ref({
+  700: {
+    itemsToShow: 3.5,
+    snapAlign: "center",
+  },
+  1024: {
+    itemsToShow: 6,
+    snapAlign: "start",
+  },
+});
+</script>
+
+<template>
+  <div class="home-product-carousel">
+    <div class="product-wrap-tshirt">
+      <Carousel
+        v-bind="settings"
+        :breakpoints="breakpoints"
+        :wrap-around="true"
+        :mouseDrag="false"
+      >
+        <Slide v-for="item in Tshirts" :key="item.product">
+          <div class="carousel__item">
+            <div class="item-wrap">
+              <div class="coming-soon-tag" v-if="item.comingsoon">
+                COMING SOON
+              </div>
+              <a href="#"
+                ><img :src="item.image" />
+                <div class="text-wrap">
+                  <h4>{{ item.product }}</h4>
+                  <p>{{ item.price }}</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </Slide>
+
+        <template #addons>
+          <Navigation />
+        </template>
+      </Carousel>
+      <div class="cta">
+        <a href="#">SHOP NOW</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.home-product-carousel {
+  padding: 20px 0;
+}
+.product-wrap-tshirt {
+  position: relative;
+  padding: 40px 0;
+}
+.product-wrap-tshirt img {
+  width: 100%;
+}
+.product-wrap-tshirt .cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0 0 0;
+}
+.product-wrap-tshirt .cta a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  background-color: #111;
+  padding: 15px 40px;
+  border: 0px;
+}
+</style>

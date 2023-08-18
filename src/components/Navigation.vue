@@ -1,10 +1,25 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import navBarItems from "@/assets/NavBarItems.json";
+import { ref, onMounted, onUnmounted } from "vue";
+
+const scrolled = ref(false);
+
+onMounted(() => {
+  const handleScroll = () => {
+    scrolled.value = window.scrollY > 50;
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  onUnmounted(() => {
+    window.removeEventListener("scroll", handleScroll);
+  });
+});
 </script>
 
 <template>
-  <div class="navigation-header">
+  <div :class="{ 'white-bg': scrolled }" class="navigation-header">
     <header>
       <div class="logo-wrap">
         <img
@@ -22,6 +37,11 @@ import navBarItems from "@/assets/NavBarItems.json";
               <RouterLink :to="item.link">{{ item.name }}</RouterLink>
             </li>
           </ul>
+          <div class="header-icons">
+            <div class="search"></div>
+            <div class="membership"></div>
+            <div class="cart"></div>
+          </div>
         </nav>
       </div>
     </header>
@@ -30,13 +50,19 @@ import navBarItems from "@/assets/NavBarItems.json";
 
 <style scoped>
 .navigation-header {
-  position: absolute;
+  position: fixed;
   width: 100%;
   left: 0;
   right: 0;
   z-index: 999;
-  height: 100px;
+  height: 80px;
+
+  transition: background-color 0.3s;
 }
+.navigation-header.white-bg {
+  background-color: white;
+}
+
 header {
   width: 100%;
   display: flex;
@@ -62,6 +88,10 @@ header {
   padding: 0 10px;
 }
 .nav-wrap ul li a:hover {
+  color: #111;
+}
+
+.navigation-header.white-bg .nav-wrap ul li a {
   color: #111;
 }
 </style>

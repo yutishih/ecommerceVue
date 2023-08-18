@@ -1,0 +1,26 @@
+[
+  {
+    "product": "Heria Everyday Relaxed Fit Joggers - Grey",
+    "image": "/src/assets/pants1.png",
+    "price": "$189.99",
+    "comingsoon": false
+  },
+  {
+    "product": "Heria Everyday Relaxed Fit Joggers - Grey",
+    "image": "/src/assets/pants1.png",
+    "price": "$189.99",
+    "comingsoon": false
+  },
+  {
+    "product": "35LB Weight Vest - 3M Reflective Grey",
+    "image": "/src/assets/pants1.png",
+    "price": "$189.99",
+    "comingsoon": false
+  },
+  {
+    "product": "28LB Weight Vest - 3M Reflective Grey",
+    "image": "/src/assets/pants1.png",
+    "price": "$189.99",
+    "comingsoon": false
+  }
+]

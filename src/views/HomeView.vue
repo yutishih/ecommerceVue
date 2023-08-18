@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import HomeCarousel from "../components/HomeCarousel.vue";
 import ProductVest from "../components/ProductVest.vue";
+import ProductPants from "../components/ProductPants.vue";
+import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
 </script>
 
 <template>
@@ -19,10 +21,55 @@ import ProductVest from "../components/ProductVest.vue";
     </div>
     <HomeCarousel />
     <ProductVest />
+
+    <div class="sub-banner-1">
+      <div class="content-wrap">
+        <div class="background-image">
+          <div class="text-wrap">
+            <h2>NOW AVAILABLE</h2>
+            <p>
+              Experience the perfect combination of comfort, style, and
+              functionality in one go-to piece of activewear.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ProductPants />
+    <div class="sub-banner-2">
+      <div class="content-wrap">
+        <div class="background-image">
+          <div class="text-wrap">
+            <h2>T-SHIRTS & TANK TOPS</h2>
+            <p>
+              Exceptional softness and luxurious cotton fabrics paired with
+              original designs.
+            </p>
+            <a href="#">SHOP NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ProductTshirtCarousel />
+    <div class="sub-banner-3">
+      <div class="content-wrap">
+        <div class="background-image">
+          <div class="text-wrap">
+            <a href="#">SHOP NOW</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.navigation-footer {
+  width: 100%;
+  left: 0;
+  right: 0;
+  height: 500px;
+}
 .main-banner-img {
   position: relative;
   background-image: url(../assets/test1.jpg);
@@ -58,5 +105,111 @@ import ProductVest from "../components/ProductVest.vue";
   color: #111;
   background-color: #fff;
   transition: 0.25s ease-in;
+}
+
+.sub-banner-1 .background-image {
+  position: relative;
+  background-image: url(../assets/subbanner1.png);
+  height: 550px;
+}
+.sub-banner-1 .background-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+.sub-banner-1 .text-wrap {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  text-align: center;
+}
+.sub-banner-1 .text-wrap h2 {
+  color: #fff;
+  font-size: 42px;
+}
+.sub-banner-1 .text-wrap p {
+  color: #fff;
+  font-size: 20px;
+}
+
+.sub-banner-2 .background-image {
+  position: relative;
+  background-image: url(../assets/subbanner2.png);
+  height: 550px;
+}
+.sub-banner-2 .background-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+.sub-banner-2 .text-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.sub-banner-2 .text-wrap h2 {
+  color: #fff;
+  font-size: 42px;
+}
+.sub-banner-2 .text-wrap p {
+  color: #fff;
+  font-size: 20px;
+  margin: 0 0 20px 0;
+}
+
+.sub-banner-2 .text-wrap a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  background-color: #111;
+  padding: 15px 40px;
+  border: 0px;
+}
+
+.sub-banner-3 .background-image {
+  position: relative;
+  background-image: url(../assets/subbanner3.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 50%;
+  height: 750px;
+}
+.sub-banner-3 .background-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+.sub-banner-3 .text-wrap {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+}
+.sub-banner-3 .text-wrap a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  background-color: #111;
+  padding: 15px 40px;
+  border: 0px;
 }
 </style>
