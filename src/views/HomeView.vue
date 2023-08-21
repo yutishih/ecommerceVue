@@ -212,4 +212,16 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
   padding: 15px 40px;
   border: 0px;
 }
+@media only screen and (max-width: 768px) {
+  .main-banner-img {
+    background-position: 50%;
+  }
+  .main-title {
+    width: 360px;
+    transform: translate(-50%, -40%);
+  }
+  .main-title h1 {
+    font-size: 32px;
+  }
+}
 </style>

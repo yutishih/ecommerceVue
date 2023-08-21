@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from "vue-router";
 import navBarItems from "@/assets/NavBarItems.json";
 import { ref, onMounted, onUnmounted } from "vue";
 
+//White background for header when scrolling down
 const scrolled = ref(false);
 
 onMounted(() => {
@@ -14,8 +15,51 @@ onMounted(() => {
 
   onUnmounted(() => {
     window.removeEventListener("scroll", handleScroll);
+    document.body.style.overflow = "";
   });
 });
+
+//Locking the scroll when mobile menu is toggled on
+const isNavToggleOn = ref(false);
+const handleNavToggle = () => {
+  isNavToggleOn.value = !isNavToggleOn.value;
+  if (isNavToggleOn.value) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+};
+//Locking the scroll when mobile cart is toggled on
+const isCartToggleOn = ref(false);
+const handleCartToggle = () => {
+  isCartToggleOn.value = !isCartToggleOn.value;
+  if (isCartToggleOn.value) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+};
+
+//Clicking anywhere outside the region to toggle off the mobile menu or cart
+const handleOverlayClick = () => {
+  isNavToggleOn.value = false;
+  isCartToggleOn.value = false;
+  document.body.style.overflow = "";
+};
+//Products in cart
+const productsInCart = ref(1);
+
+//Product Quantity
+const productQuantity = ref(0);
+
+const increment = () => {
+  productQuantity.value += 1;
+};
+const decrement = () => {
+  if (productQuantity.value > 0) {
+    productQuantity.value -= 1;
+  }
+};
 </script>
 
 <template>
@@ -31,24 +75,215 @@ onMounted(() => {
         />
       </div>
       <div class="nav-wrap">
-        <nav>
+        <nav class="nav-flex">
           <ul>
             <li v-for="item in navBarItems" :key="item.name">
               <RouterLink :to="item.link">{{ item.name }}</RouterLink>
             </li>
           </ul>
           <div class="header-icons">
-            <div class="search"></div>
-            <div class="membership"></div>
-            <div class="cart"></div>
+            <div
+              :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
+              class="header-icon-item header-icon-size search"
+            >
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div
+              :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
+              class="header-icon-item header-icon-size user"
+            >
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div
+              :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
+              class="header-icon-item header-icon-size shoppingCart"
+            >
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
           </div>
         </nav>
       </div>
+      <div class="nav-wrap-mobile">
+        <div
+          :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
+          class="mobile-nav-icon-padding header-icon-size burgar"
+          @click="handleNavToggle"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </div>
+        <div
+          :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
+          class="mobile-nav-icon-padding header-icon-size shoppingCart"
+          @click="handleCartToggle"
+        >
+          <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+      </div>
+      <div class="navigation-drawer" :class="{ show: isNavToggleOn }">
+        <div class="drawer-header">
+          <div class="logo-wrap">
+            <img
+              alt="Vue logo"
+              class="logo"
+              src="@/assets/logo.svg"
+              width="50"
+              height="50"
+            />
+          </div>
+          <div class="cross header-icon-size" @click="handleNavToggle">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+        </div>
+        <ul class="mobile-page-wrap">
+          <li v-for="item in navBarItems" :key="item.name">
+            <RouterLink :to="item.link">{{ item.name }}</RouterLink>
+          </li>
+        </ul>
+        <ul class="mobile-user-wrap">
+          <li><a>Log in</a></li>
+          <li><a>Create account</a></li>
+          <li><a>Search</a></li>
+        </ul>
+      </div>
+      <div class="mobile-cart-drawer" :class="{ show: isCartToggleOn }">
+        <div class="drawer-header">
+          <div class="cart-title">
+            <p>Cart</p>
+          </div>
+          <div class="cross header-icon-size" @click="handleCartToggle">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+        </div>
+
+        <div>
+          <div v-if="productsInCart <= 0" class="empty-cart-message">
+            <p>Your cart is currently empty.</p>
+          </div>
+          <div v-else class="product-wrap">
+            <div>
+              <div class="product-list">
+                <div class="product-item">
+                  <div class="product-image">
+                    <img src="../assets/vest-sm.png" />
+                    <div class="remove-item">Remove</div>
+                  </div>
+                  <div class="product-info">
+                    <div class="product-name p-item">
+                      35LB Weight Vest - Black
+                    </div>
+                    <div class="product-type p-item">Black</div>
+                    <div class="product-price p-item">$189.99</div>
+                    <div class="product-quantity p-item">
+                      <a @click="decrement"
+                        ><i class="fa-solid fa-minus"></i
+                      ></a>
+                      <input type="number" min="0" v-model="productQuantity" />
+                      <a @click="increment"><i class="fa-solid fa-plus"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="subtotal">
+                  <p>Subtotal</p>
+                  <p>$189.99</p>
+                </div>
+                <div class="shipping-message">
+                  Shipping & taxes calculated at checkout
+                </div>
+              </div>
+              <div class="payment-option">
+                <div><a>CHECK OUT</a></div>
+                <div><a>SHOP Pay</a></div>
+                <div><a>Paypal</a></div>
+                <div><a>G Pay</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="overlay-dark-bg"
+        v-if="isNavToggleOn || isCartToggleOn"
+        @click="handleOverlayClick"
+      ></div>
     </header>
   </div>
 </template>
 
 <style scoped>
+.payment-option {
+  text-align: center;
+}
+.payment-option a {
+  display: block;
+  color: #fff;
+  margin: 10px 20px;
+  padding: 10px 40px;
+  background-color: #363636;
+}
+.product-quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100px;
+  min-width: 90px;
+}
+.product-quantity a {
+  font-size: 18px;
+  cursor: pointer;
+}
+.product-quantity input[type="number"] {
+  width: 100%;
+  font-size: 16px;
+  text-align: center;
+  background: none;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.product-quantity input[type="number"]::-webkit-inner-spin-button,
+.product-quantity input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.product-type {
+  color: #969696;
+}
+.product-list {
+  padding-top: 20px;
+}
+.product-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+}
+.product-info {
+  padding: 0 10px;
+}
+.p-item {
+  padding-bottom: 2px;
+}
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 10px 20px;
+}
+.shipping-message {
+  padding: 0 20px 10px 20px;
+  font-size: 12px;
+}
+.remove-item {
+  font-size: 12px;
+}
+.product-image img {
+  width: 60px;
+}
 .navigation-header {
   position: fixed;
   width: 100%;
@@ -56,7 +291,6 @@ onMounted(() => {
   right: 0;
   z-index: 999;
   height: 80px;
-
   transition: background-color 0.3s;
 }
 .navigation-header.white-bg {
@@ -85,13 +319,145 @@ header {
 .nav-wrap ul li a {
   text-decoration: none;
   color: #fff;
+  font-size: 18px;
+  font-weight: 600;
   padding: 0 10px;
 }
-.nav-wrap ul li a:hover {
-  color: #111;
+
+.nav-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-icon-item {
+  padding: 0 15px;
 }
 
 .navigation-header.white-bg .nav-wrap ul li a {
-  color: #111;
+  color: #505050;
+}
+.nav-wrap .header-icons .white-bg svg {
+  color: #505050;
+}
+.nav-wrap .header-icons .black-bg svg {
+  color: #fff;
+}
+.nav-wrap-mobile .white-bg svg {
+  color: #505050;
+}
+.nav-wrap-mobile .black-bg svg {
+  color: #fff;
+}
+.nav-wrap-mobile {
+  display: none;
+}
+.header-icon-size {
+  font-size: 25px;
+}
+.mobile-nav-icon-padding {
+  padding: 15px;
+}
+.nav-wrap-mobile {
+  z-index: 103;
+}
+.navigation-drawer {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 60vw;
+  z-index: 101;
+}
+.navigation-drawer {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+.navigation-drawer.show {
+  transform: translateX(0);
+}
+.navigation-drawer .drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+}
+
+.mobile-cart-drawer {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 60vw;
+  z-index: 101;
+}
+.mobile-cart-drawer {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+.mobile-cart-drawer.show {
+  transform: translateX(0);
+}
+
+.mobile-cart-drawer .drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 30px;
+  padding: 20px 0;
+  border-bottom: #d1d1d1 2px solid;
+}
+.navigation-drawer ul li {
+  list-style: none;
+}
+.navigation-drawer ul li a {
+  text-decoration: none;
+}
+.navigation-drawer .mobile-page-wrap {
+  margin-bottom: 20px;
+}
+.navigation-drawer .mobile-page-wrap li {
+  padding-bottom: 20px;
+}
+.navigation-drawer .mobile-page-wrap li a {
+  color: #636363;
+  font-size: 28px;
+  font-weight: 400;
+}
+.navigation-drawer .mobile-user-wrap li {
+  padding-bottom: 10px;
+}
+.navigation-drawer .mobile-user-wrap li a {
+  color: #636363;
+}
+.empty-cart-message {
+  padding: 30px;
+}
+.overlay-dark-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+}
+@media only screen and (max-width: 768px) {
+  .nav-wrap {
+    display: none;
+  }
+  .nav-wrap-mobile {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 99;
+  }
 }
 </style>
