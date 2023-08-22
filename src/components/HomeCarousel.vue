@@ -17,11 +17,23 @@ const settings = ref({
 });
 
 const breakpoints = ref({
-  700: {
-    itemsToShow: 3.5,
-    snapAlign: "center",
+  480: {
+    itemsToShow: 2,
+    snapAlign: "start",
+  },
+  768: {
+    itemsToShow: 3,
+    snapAlign: "start",
   },
   1024: {
+    itemsToShow: 4,
+    snapAlign: "start",
+  },
+  1400: {
+    itemsToShow: 5,
+    snapAlign: "start",
+  },
+  1600: {
     itemsToShow: 6,
     snapAlign: "start",
   },
@@ -47,6 +59,7 @@ const breakpoints = ref({
                 }"
               >
                 <h4>{{ slide.name }}</h4>
+                <div class="cta-button">SHOP NOW</div>
               </div>
             </a>
           </div>
@@ -80,10 +93,15 @@ const breakpoints = ref({
   color: #fff;
 }
 .featured-category-item {
-  width: 250px;
+  width: 240px;
   height: 400px;
   background-size: cover;
   background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .featured-category-item h4 {
   position: absolute;
@@ -92,6 +110,63 @@ const breakpoints = ref({
   transform: translate(-50%, 50%);
   text-decoration: none;
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
+
+  text-align: center;
+}
+.cta-button {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 14px;
+  background-color: #111;
+  padding: 10px 20px;
+}
+@media only screen and (max-width: 1600px) {
+  .featured-category-item {
+    width: 240px;
+    height: 400px;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .featured-category-item {
+    width: 230px;
+    height: 350px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .featured-category-item {
+    width: 220px;
+    height: 350px;
+  }
+  .featured-category-item h4 {
+    font-size: 18px;
+  }
+  .cta-button {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .featured-category-item {
+    width: 200px;
+    height: 350px;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .featured-category-item {
+    width: 190px;
+    height: 350px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .featured-category-item {
+    width: 220px;
+    height: 300px;
+  }
 }
 </style>

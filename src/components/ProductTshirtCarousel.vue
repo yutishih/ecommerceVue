@@ -92,4 +92,8 @@ const breakpoints = ref({
   padding: 15px 40px;
   border: 0px;
 }
+.item-wrap a {
+  text-decoration: none;
+  color: #636363;
+}
 </style>

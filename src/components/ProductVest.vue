@@ -25,6 +25,7 @@ import vest from "@/assets/Vest.json";
   width: 100%;
   max-width: 1200px;
   margin: 50px auto;
+  padding: 0 15px;
 }
 .product-wrap {
   display: grid;
@@ -54,5 +55,13 @@ import vest from "@/assets/Vest.json";
   padding: 10px 20px;
   background-color: #111;
   color: #fff;
+}
+
+@media only screen and (max-width: 1024px) {
+  .product-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1rem;
+  }
 }
 </style>

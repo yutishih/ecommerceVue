@@ -58,7 +58,11 @@ import socialMedia from "@/assets/SocialMedia.json";
   padding: 100px 0 60px 0;
 }
 .footer-content .logo-wrap {
-  padding: 0 0 20px 0;
+  padding-bottom: 20px;
+}
+.logo-wrap,
+.nav-wrap {
+  padding-left: 40px;
 }
 .footer-content ul {
   padding: 0;
@@ -102,5 +106,11 @@ import socialMedia from "@/assets/SocialMedia.json";
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media only screen and (max-width: 768px) {
+  .logo-wrap,
+  .nav-wrap {
+    padding-left: 40px;
+  }
 }
 </style>

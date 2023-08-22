@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import navBarItems from "@/assets/NavBarItems.json";
-import { ref, onMounted, onUnmounted } from "vue";
+import { computed, ref, onMounted, onUnmounted } from "vue";
 
 //White background for header when scrolling down
 const scrolled = ref(false);
@@ -17,6 +17,14 @@ onMounted(() => {
     window.removeEventListener("scroll", handleScroll);
     document.body.style.overflow = "";
   });
+});
+
+// Create a prop named 'specialStyle' to insert classname for sign/login pages
+const props = defineProps({
+  specialStyle: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 //Locking the scroll when mobile menu is toggled on
@@ -47,24 +55,77 @@ const handleOverlayClick = () => {
   document.body.style.overflow = "";
 };
 //Products in cart
-const productsInCart = ref(1);
+const productsInCart = ref([
+  {
+    id: 1,
+    name: "35LB Weight Vest - Black",
+    price: 189.99,
+    quantity: 1,
+    image: "../assets/vest-sm.png",
+    type: "Black",
+  },
+  {
+    id: 2,
+    name: "35LB Weight Vest - white",
+    price: 99.99,
+    quantity: 1,
+    image: "../assets/vest-sm.png",
+    type: "White",
+  },
+  // ... Add more products as needed
+]);
 
-//Product Quantity
-const productQuantity = ref(0);
-
-const increment = () => {
-  productQuantity.value += 1;
+// increase/decrease the product quantity
+const increment = (productId: number) => {
+  const product = productsInCart.value.find((p) => p.id === productId);
+  if (product) product.quantity += 1;
 };
-const decrement = () => {
-  if (productQuantity.value > 0) {
-    productQuantity.value -= 1;
+
+const decrement = (productId: number) => {
+  const product = productsInCart.value.find((p) => p.id === productId);
+  if (product) {
+    if (product.quantity > 0) {
+      product.quantity -= 1;
+      // Check if the product's quantity is now 0, when 0, remove the product
+      if (product.quantity === 0) {
+        removeFromCart(productId);
+      }
+    }
   }
 };
+
+// add/remove the product
+const addToCart = (product: {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  type: string;
+}) => {
+  const existingProduct = productsInCart.value.find((p) => p.id === product.id);
+  if (existingProduct) {
+    existingProduct.quantity += product.quantity;
+  } else {
+    productsInCart.value.push(product);
+  }
+};
+const removeFromCart = (productId: number) => {
+  const index = productsInCart.value.findIndex((p) => p.id === productId);
+  if (index !== -1) productsInCart.value.splice(index, 1);
+};
+// get total price
+const subtotal = computed(() => {
+  return productsInCart.value.reduce(
+    (acc, product) => acc + product.price * product.quantity,
+    0
+  );
+});
 </script>
 
 <template>
   <div :class="{ 'white-bg': scrolled }" class="navigation-header">
-    <header>
+    <header :class="{ 'special-navbar': props.specialStyle }">
       <div class="logo-wrap">
         <img
           alt="Vue logo"
@@ -97,6 +158,7 @@ const decrement = () => {
             <div
               :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
               class="header-icon-item header-icon-size shoppingCart"
+              @click="handleCartToggle"
             >
               <i class="fa-solid fa-cart-shopping"></i>
             </div>
@@ -156,35 +218,48 @@ const decrement = () => {
         </div>
 
         <div>
-          <div v-if="productsInCart <= 0" class="empty-cart-message">
+          <div v-if="productsInCart.length <= 0" class="empty-cart-message">
             <p>Your cart is currently empty.</p>
           </div>
           <div v-else class="product-wrap">
             <div>
               <div class="product-list">
-                <div class="product-item">
+                <div
+                  v-for="product in productsInCart"
+                  :key="product.id"
+                  class="product-item"
+                >
                   <div class="product-image">
                     <img src="../assets/vest-sm.png" />
-                    <div class="remove-item">Remove</div>
+                    <div
+                      class="remove-item"
+                      @click="removeFromCart(product.id)"
+                    >
+                      Remove
+                    </div>
                   </div>
                   <div class="product-info">
                     <div class="product-name p-item">
-                      35LB Weight Vest - Black
+                      {{ product.name }}
                     </div>
-                    <div class="product-type p-item">Black</div>
-                    <div class="product-price p-item">$189.99</div>
+                    <div class="product-type p-item">{{ product.type }}</div>
+                    <div class="product-price p-item">
+                      ${{ product.price.toFixed(2) }}
+                    </div>
                     <div class="product-quantity p-item">
-                      <a @click="decrement"
+                      <a @click="decrement(product.id)"
                         ><i class="fa-solid fa-minus"></i
                       ></a>
-                      <input type="number" min="0" v-model="productQuantity" />
-                      <a @click="increment"><i class="fa-solid fa-plus"></i></a>
+                      <input type="number" min="0" v-model="product.quantity" />
+                      <a @click="increment(product.id)"
+                        ><i class="fa-solid fa-plus"></i
+                      ></a>
                     </div>
                   </div>
                 </div>
                 <div class="subtotal">
                   <p>Subtotal</p>
-                  <p>$189.99</p>
+                  <p>${{ subtotal.toFixed(2) }}</p>
                 </div>
                 <div class="shipping-message">
                   Shipping & taxes calculated at checkout
@@ -210,6 +285,16 @@ const decrement = () => {
 </template>
 
 <style scoped>
+.special-navbar .nav-wrap ul li a {
+  color: #505050;
+}
+.special-navbar .nav-wrap .header-icons .black-bg svg {
+  color: #505050;
+}
+.special-navbar .nav-wrap-mobile .black-bg svg {
+  color: #505050;
+}
+
 .payment-option {
   text-align: center;
 }
@@ -280,6 +365,7 @@ const decrement = () => {
 }
 .remove-item {
   font-size: 12px;
+  cursor: pointer;
 }
 .product-image img {
   width: 60px;
@@ -394,7 +480,7 @@ header {
   top: 0;
   right: 0;
   height: 100vh;
-  width: 60vw;
+  width: 320px;
   z-index: 101;
 }
 .mobile-cart-drawer {

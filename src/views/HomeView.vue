@@ -109,8 +109,9 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
 
 .sub-banner-1 .background-image {
   position: relative;
-  background-image: url(../assets/subbanner1.png);
   height: 550px;
+  background-image: url(../assets/subbanner1.png);
+  background-size: cover;
 }
 .sub-banner-1 .background-image::before {
   content: "";
@@ -184,7 +185,7 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
   background-image: url(../assets/subbanner3.png);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 0 50%;
+  background-position: 50% 50%;
   height: 750px;
 }
 .sub-banner-3 .background-image::before {
@@ -222,6 +223,18 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
   }
   .main-title h1 {
     font-size: 32px;
+  }
+  .sub-banner-1 .text-wrap {
+    width: 400px;
+  }
+  .sub-banner-1 .text-wrap h2 {
+    font-size: 28px;
+  }
+  .sub-banner-2 .text-wrap {
+    width: 400px;
+  }
+  .sub-banner-2 .text-wrap h2 {
+    font-size: 28px;
   }
 }
 </style>
