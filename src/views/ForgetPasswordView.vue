@@ -3,15 +3,13 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
     };
   },
   methods: {
-    handleLogin() {
+    handleResetPassword() {
       // Here, you can process the input.
       // For this example, I'll just log the entered data.
-      console.log("Username:", this.email);
-      console.log("Password:", this.password);
+      console.log("Email:", this.email);
       // Typically, you'd send this data to a server for authentication.
     },
   },
@@ -19,11 +17,11 @@ export default {
 </script>
 
 <template>
-  <div class="login">
-    <div class="login-wrap">
-      <h2>Login</h2>
-      <form @submit.prevent="handleLogin">
-        <div class="login-email-wrap">
+  <div class="forget-password">
+    <div class="forget-password-wrap">
+      <h2>Reset your password</h2>
+      <form @submit.prevent="handleResetPassword">
+        <div class="forget-password-email-wrap">
           <input
             v-model="email"
             type="text"
@@ -32,41 +30,29 @@ export default {
             required
           />
         </div>
-        <div class="login-password-wrap">
-          <input
-            v-model="password"
-            type="password"
-            placeholder="Password"
-            id="password"
-            required
-          />
-        </div>
-        <button class="login-button" type="submit">SIGN IN</button>
+        <button class="forget-password-button" type="submit">SUBMIT</button>
       </form>
       <div class="message-links">
-        <div class="forget-password-message">
-          <a href="#/forget-password">Forgot your password?</a>
-        </div>
-        <div class="create-account"><a href="#/signup">Create account</a></div>
+        <div class="forget-password-cancel"><a href="#/login">Cancel</a></div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.login {
+.forget-password {
   min-height: 60vh;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 80px 0;
 }
-.login-wrap h2 {
+.forget-password-wrap h2 {
   font-size: 32px;
   font-weight: 500;
   padding-bottom: 20px;
 }
-.login-wrap input {
+.forget-password-wrap input {
   max-width: 50vw;
   width: 500px;
   font-size: 18px;
@@ -80,7 +66,7 @@ export default {
   -moz-appearance: none;
   appearance: none;
 }
-.login-button {
+.forget-password-button {
   background-color: #111;
   font-size: 16px;
   color: #fff;
@@ -101,10 +87,10 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .login-wrap input {
+  .forget-password-wrap input {
     max-width: 80vw;
   }
-  .login-button {
+  .forget-password-button {
     width: 80vw;
   }
 }

@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1,
+    "product": "Heria Metal Logo Tee - Black",
+    "image": "/src/assets/tshirt1.png",
+    "category": "vest",
+    "price": "$1",
+    "comingsoon": true
+  },
+  {
+    "id": 2,
+    "product": "Heria Metal Logo Tee - Black",
+    "image": "/src/assets/tshirt1.png",
+    "category": "vest",
+    "price": "$2",
+    "comingsoon": false
+  },
+  {
+    "id": 3,
+    "product": "35LB Weight Vest - 3M Reflective Grey",
+    "image": "/src/assets/tshirt1.png",
+    "category": "vest",
+    "price": "$3",
+    "comingsoon": false
+  },
+  {
+    "id": 4,
+    "product": "28LB Weight Vest - 3M Reflective Grey",
+    "image": "/src/assets/tshirt1.png",
+    "category": "pants",
+    "price": "$4",
+    "comingsoon": false
+  },
+  {
+    "id": 5,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "pants",
+    "price": "$5",
+    "comingsoon": false
+  },
+  {
+    "id": 6,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "pants",
+    "price": "$6",
+    "comingsoon": false
+  },
+  {
+    "id": 7,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "tshirts",
+    "price": "$7",
+    "comingsoon": false
+  },
+  {
+    "id": 8,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "pants",
+    "price": "$6",
+    "comingsoon": false
+  },
+  {
+    "id": 9,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "tshirts",
+    "price": "$7",
+    "comingsoon": false
+  },
+  {
+    "id": 10,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "pants",
+    "price": "$6",
+    "comingsoon": false
+  },
+  {
+    "id": 11,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "tshirts",
+    "price": "$7",
+    "comingsoon": false
+  },
+  {
+    "id": 12,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "tshirts",
+    "price": "$8",
+    "comingsoon": false
+  },
+  {
+    "id": 13,
+    "product": "Weight Vests",
+    "image": "/src/assets/tshirt1.png",
+    "category": "tshirts",
+    "price": "$7",
+    "comingsoon": false
+  }
+]

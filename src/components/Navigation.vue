@@ -19,9 +19,9 @@ onMounted(() => {
   });
 });
 
-// Create a prop named 'specialStyle' to insert classname for sign/login pages
+// Create a prop named 'darkTextStyle' to insert classname for sign/login pages
 const props = defineProps({
-  specialStyle: {
+  darkTextStyle: {
     type: Boolean,
     default: false,
   },
@@ -125,7 +125,7 @@ const subtotal = computed(() => {
 
 <template>
   <div :class="{ 'white-bg': scrolled }" class="navigation-header">
-    <header :class="{ 'special-navbar': props.specialStyle }">
+    <header :class="{ 'dark-text-navbar': props.darkTextStyle }">
       <div class="logo-wrap">
         <img
           alt="Vue logo"
@@ -149,12 +149,13 @@ const subtotal = computed(() => {
             >
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <div
-              :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
-              class="header-icon-item header-icon-size user"
-            >
-              <i class="fa-solid fa-user"></i>
-            </div>
+            <a href="#/login"
+              ><div
+                :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
+                class="header-icon-item header-icon-size user"
+              >
+                <i class="fa-solid fa-user"></i></div
+            ></a>
             <div
               :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
               class="header-icon-item header-icon-size shoppingCart"
@@ -285,13 +286,13 @@ const subtotal = computed(() => {
 </template>
 
 <style scoped>
-.special-navbar .nav-wrap ul li a {
+.dark-text-navbar .nav-wrap ul li a {
   color: #505050;
 }
-.special-navbar .nav-wrap .header-icons .black-bg svg {
+.dark-text-navbar .nav-wrap .header-icons .black-bg svg {
   color: #505050;
 }
-.special-navbar .nav-wrap-mobile .black-bg svg {
+.dark-text-navbar .nav-wrap-mobile .black-bg svg {
   color: #505050;
 }
 
@@ -405,9 +406,9 @@ header {
 .nav-wrap ul li a {
   text-decoration: none;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .nav-flex {
