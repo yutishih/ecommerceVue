@@ -275,15 +275,7 @@ const slideTo = (val: number) => {
   padding: 5px 10px;
   background-color: #ebe7ea;
 }
-@media (max-width: 768px) {
-  .item-wrap-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 60px;
-  }
-  .add-to-cart-button button {
-    width: 100%;
-  }
+@media (max-width: 1480px) {
   .item-display {
     overflow-x: auto;
     white-space: nowrap;
@@ -295,6 +287,17 @@ const slideTo = (val: number) => {
     -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
   }
+}
+@media (max-width: 768px) {
+  .item-wrap-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 60px;
+  }
+  .add-to-cart-button button {
+    width: 100%;
+  }
+
   .item-display .item-wrap {
     display: inline-block;
     margin-right: 10px;
