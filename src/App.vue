@@ -29,6 +29,7 @@ watch(router.currentRoute, (route) => {
       isSignupRoute || isLoginRoute || isForgetPasswordRoute || isProductsRoute
     "
   />
+
   <RouterView />
   <NavigationFooter />
 </template>

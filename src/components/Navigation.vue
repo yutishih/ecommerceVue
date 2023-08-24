@@ -19,7 +19,7 @@ onMounted(() => {
   });
 });
 
-// Create a prop named 'darkTextStyle' to insert classname for sign/login pages
+// define 'darkTextStyle' props type: parent component(App.vue) will set the value and pass it to here
 const props = defineProps({
   darkTextStyle: {
     type: Boolean,
