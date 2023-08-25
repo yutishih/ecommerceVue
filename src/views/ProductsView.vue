@@ -57,10 +57,22 @@ const slideTo = (val: number) => {
               <p>$35.00</p>
               <div class="color-selection">
                 <h5>Color</h5>
-                <div class="color_wrap">
-                  <a>Black</a>
-                  <a>White</a>
-                  <a>Red</a>
+                <div
+                  class="color_wrap"
+                  v-for="product in fullCollection"
+                  :key="product.id"
+                >
+                  <a>
+                    <span>
+                      <div
+                        class="color-selection-bg-image"
+                        :style="{
+                          'background-image':
+                            'url(' + product.color?.black + ')',
+                        }"
+                      ></div>
+                    </span>
+                  </a>
                 </div>
               </div>
               <div class="size-selection">
@@ -243,13 +255,19 @@ const slideTo = (val: number) => {
   display: flex;
   justify-content: center;
   align-items: center;
-
   white-space: nowrap;
   min-width: min-content;
+}
+.item-wrap {
+  text-align: center;
 }
 .item-wrap a {
   text-decoration: none;
   color: #111;
+}
+.item-wrap img {
+  min-width: 250px;
+  width: 100%;
 }
 .items-recommended-wrap {
   padding: 60px 0;
@@ -275,6 +293,12 @@ const slideTo = (val: number) => {
   padding: 5px 10px;
   background-color: #ebe7ea;
 }
+.color-selection-bg-image {
+  width: 56px;
+  height: 56px;
+  background-size: cover;
+}
+
 @media (max-width: 1480px) {
   .item-display {
     overflow-x: auto;
@@ -288,6 +312,7 @@ const slideTo = (val: number) => {
     scrollbar-width: none; /* Hide scrollbar for Firefox */
   }
 }
+
 @media (max-width: 768px) {
   .item-wrap-grid {
     display: grid;

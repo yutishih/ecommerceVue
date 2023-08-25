@@ -5,7 +5,18 @@
     "image": "/src/assets/tshirt1.png",
     "category": "vest",
     "price": "$1",
-    "comingsoon": true
+    "comingsoon": true,
+    "color": {
+      "black": "/src/assets/color-1.png",
+      "white": "/src/assets/color-2.png",
+      "pink": "/src/assets/color-3.png"
+    },
+    "size": {
+      "small": "S",
+      "medium": "M",
+      "large": "L",
+      "extraLarge": "XL"
+    }
   },
   {
     "id": 2,
@@ -13,7 +24,18 @@
     "image": "/src/assets/tshirt1.png",
     "category": "vest",
     "price": "$2",
-    "comingsoon": false
+    "comingsoon": false,
+    "color": {
+      "black": "/src/assets/color-1.png",
+      "white": "/src/assets/color-2.png",
+      "pink": "/src/assets/color-3.png"
+    },
+    "size": {
+      "small": "S",
+      "medium": "M",
+      "large": "L",
+      "extraLarge": "XL"
+    }
   },
   {
     "id": 3,
