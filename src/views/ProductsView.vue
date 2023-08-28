@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import productTestSlides from "@/assets/ProductTestSlides.json";
@@ -9,6 +9,30 @@ const currentSlide = ref(0);
 const slideTo = (val: number) => {
   currentSlide.value = val;
 };
+
+// Define the type for a product and make it nullable and allow undefined
+type ProductType =
+  | {
+      id: number;
+      product: string;
+      image: string;
+      category: string;
+      price: string;
+      comingsoon: boolean;
+      color?: Record<string, string>;
+      size?: Record<string, string>;
+    }
+  | null
+  | undefined;
+
+// ---- Added code starts here ----
+const selectedProduct: Ref<ProductType> = ref(null);
+
+// Filter the product with id = 1
+const filterSelectedProduct = () => {
+  selectedProduct.value = fullCollection.find((product) => product.id === 1);
+};
+filterSelectedProduct();
 </script>
 
 <template>
@@ -55,24 +79,25 @@ const slideTo = (val: number) => {
               <h5>FULL COLLECTION</h5>
               <h2>Heria Training Mesh T-Shirt - Black</h2>
               <p>$35.00</p>
-              <div class="color-selection">
+              <div class="color-selection" v-if="selectedProduct">
                 <h5>Color</h5>
-                <div
-                  class="color_wrap"
-                  v-for="product in fullCollection"
-                  :key="product.id"
-                >
-                  <a>
-                    <span>
-                      <div
-                        class="color-selection-bg-image"
-                        :style="{
-                          'background-image':
-                            'url(' + product.color?.black + ')',
-                        }"
-                      ></div>
-                    </span>
-                  </a>
+                <div class="color_wrap">
+                  <div
+                    class="color_wrap_padding"
+                    v-for="(colorImageUrl, colorName) in selectedProduct.color"
+                    :key="colorName"
+                  >
+                    <a>
+                      <span>
+                        <div
+                          class="color-selection-bg-image"
+                          :style="{
+                            'background-image': 'url(' + colorImageUrl + ')',
+                          }"
+                        ></div>
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
               <div class="size-selection">
@@ -197,7 +222,7 @@ const slideTo = (val: number) => {
   align-items: center;
   padding-bottom: 10px;
 }
-.color_wrap a {
+.color_wrap_padding {
   padding-right: 10px;
 }
 .size-wrap {
@@ -293,10 +318,25 @@ const slideTo = (val: number) => {
   padding: 5px 10px;
   background-color: #ebe7ea;
 }
+
+.color_wrap_padding span {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  margin: 3px 5px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.4s;
+}
 .color-selection-bg-image {
   width: 56px;
   height: 56px;
   background-size: cover;
+  border-radius: inherit;
 }
 
 @media (max-width: 1480px) {
