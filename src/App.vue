@@ -29,8 +29,8 @@ watch(router.currentRoute, (route) => {
       isSignupRoute || isLoginRoute || isForgetPasswordRoute || isProductsRoute
     "
   />
-
-  <RouterView />
+  <!-- Forcing the router-view to recreate its components to redirect the page -->
+  <RouterView :key="$route.fullPath" />
   <NavigationFooter />
 </template>
 

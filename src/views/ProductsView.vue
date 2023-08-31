@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { type Ref, ref } from "vue";
+import { type Ref, ref, computed, watch } from "vue";
+import { useRoute } from "vue-router";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
-import productTestSlides from "@/assets/ProductTestSlides.json";
 import fullCollection from "@/assets/FullCollection.json";
 
 const currentSlide = ref(0);
@@ -10,33 +10,60 @@ const slideTo = (val: number) => {
   currentSlide.value = val;
 };
 
+//Vue Router
+const route = useRoute();
+const productId = route.params.id;
+
+//watch the params
+watch(
+  () => route.params.id,
+  (newId) => {
+    filterSelectedProduct();
+  }
+);
+
 // Define the type for a product and make it nullable and allow undefined
 type ProductType =
   | {
       id: number;
       product: string;
       image: string;
+      carouselImg?: Record<string, string>;
       category: string;
       price: string;
       comingsoon: boolean;
       color?: Record<string, string>;
       size?: Record<string, string>;
+      message?: {
+        title: string;
+        desc: string;
+        detail: Record<string, string>;
+      };
     }
   | null
   | undefined;
 
-// ---- Added code starts here ----
 const selectedProduct: Ref<ProductType> = ref(null);
 
 // Filter the product with id = 1
+// const filterSelectedProduct = () => {
+//   selectedProduct.value = fullCollection.find((product) => product.id === 1);
+// };
 const filterSelectedProduct = () => {
-  selectedProduct.value = fullCollection.find((product) => product.id === 1);
+  selectedProduct.value = fullCollection.find(
+    (product) => product.id === Number(productId)
+  );
 };
 filterSelectedProduct();
+
+//Filtered items for recommendations
+const recommendedItems = computed(() => {
+  return fullCollection.filter((item) => item.category === "vest").slice(0, 4);
+});
 </script>
 
 <template>
-  <div class="products">
+  <div class="products" v-if="selectedProduct">
     <div class="products-flex">
       <div class="products-wrap">
         <div class="item-wrap-grid">
@@ -47,9 +74,12 @@ filterSelectedProduct();
               :wrap-around="false"
               v-model="currentSlide"
             >
-              <Slide v-for="slide in productTestSlides" :key="slide.product">
+              <Slide
+                v-for="(imgUrl, imgName) in selectedProduct.carouselImg"
+                :key="imgName"
+              >
                 <div class="carousel__item">
-                  <img :src="slide.image" />
+                  <img :src="imgUrl" />
                 </div>
               </Slide>
               <template #addons>
@@ -65,11 +95,11 @@ filterSelectedProduct();
               ref="carousel"
             >
               <Slide
-                v-for="(slide, index) in productTestSlides"
-                :key="slide.product"
+                v-for="(imgUrl, imgName, index) in selectedProduct.carouselImg"
+                :key="imgName"
               >
                 <div class="carousel__item" @click="slideTo(index)">
-                  <img :src="slide.image" />
+                  <img :src="imgUrl" />
                 </div>
               </Slide>
             </Carousel>
@@ -77,9 +107,9 @@ filterSelectedProduct();
           <div class="items-information">
             <form>
               <h5>FULL COLLECTION</h5>
-              <h2>Heria Training Mesh T-Shirt - Black</h2>
-              <p>$35.00</p>
-              <div class="color-selection" v-if="selectedProduct">
+              <h2>{{ selectedProduct.product }}</h2>
+              <p>{{ selectedProduct.price }}</p>
+              <div class="color-selection">
                 <h5>Color</h5>
                 <div class="color_wrap">
                   <div
@@ -103,10 +133,27 @@ filterSelectedProduct();
               <div class="size-selection">
                 <h5>Size</h5>
                 <div class="size-wrap">
-                  <a>S</a>
-                  <a>M</a>
-                  <a>L</a>
-                  <a>XL</a>
+                  <div class="size-options">
+                    <div
+                      class="variant-field"
+                      v-for="(sizeCode, sizeName) in selectedProduct.size"
+                      :key="sizeName"
+                    >
+                      <input
+                        :id="'size-' + sizeCode"
+                        class="visually-hidden variant-input"
+                        type="radio"
+                        name="Size"
+                        :value="sizeCode"
+                        checked
+                      />
+                      <label
+                        class="variant__button-label"
+                        :for="'size-' + sizeCode"
+                        >{{ sizeCode }}</label
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="quantity-selection">
@@ -117,19 +164,17 @@ filterSelectedProduct();
               </div>
             </form>
             <div class="items-desc">
-              <h5>Description</h5>
+              <h5>{{ selectedProduct.message?.title }}</h5>
               <p>
-                Designed for running, training, and discreet enough for causal
-                wear. This Ts durable mesh fabric was constructed with athletes
-                in mind to train hard while feeling and looking good.
+                {{ selectedProduct.message?.desc }}
               </p>
-              <h5>Care</h5>
-              <p>100% Cotton</p>
-              <p>Machine Wash Cold</p>
-              <p>Wash With Like Colors</p>
-              <p>Tumble Dry Low</p>
-              <p>Medium Iron</p>
-              <p>Do Not Dry Clean</p>
+              <h5>{{ selectedProduct.message?.detail.title }}</h5>
+              <p>{{ selectedProduct.message?.detail.text1 }}</p>
+              <p>{{ selectedProduct.message?.detail.text2 }}</p>
+              <p>{{ selectedProduct.message?.detail.text3 }}</p>
+              <p>{{ selectedProduct.message?.detail.text4 }}</p>
+              <p>{{ selectedProduct.message?.detail.text5 }}</p>
+              <p>{{ selectedProduct.message?.detail.text6 }}</p>
             </div>
           </div>
         </div>
@@ -143,13 +188,13 @@ filterSelectedProduct();
         </div>
         <div class="item-display">
           <div class="item-display-wrap">
-            <div v-for="item in fullCollection.slice(0, 4)" :key="item.id">
+            <div v-for="item in recommendedItems" :key="item.id">
               <div class="item-wrap">
                 <div class="coming-soon-tag" v-if="item.comingsoon">
                   COMING SOON
                 </div>
-                <a href="#"
-                  ><img :src="item.image" />
+                <a href="#">
+                  <img :src="item.image" />
                   <div class="text-wrap">
                     <h4>{{ item.product }}</h4>
                     <p>{{ item.price }}</p>
@@ -337,6 +382,31 @@ filterSelectedProduct();
   height: 56px;
   background-size: cover;
   border-radius: inherit;
+}
+.size-options {
+  display: flex;
+  align-items: center;
+}
+.visually-hidden {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.variant__button-label {
+  display: inline-block;
+  padding: 5px 15px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.variant-input:checked + .variant__button-label {
+  border: 1px solid #464646;
 }
 
 @media (max-width: 1480px) {

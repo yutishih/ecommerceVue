@@ -3,8 +3,14 @@
     "id": 1,
     "product": "Heria Metal Logo Tee - Black",
     "image": "/src/assets/tshirt1.png",
+    "carouselImg": {
+      "cImg1": "/src/assets/product-1.png",
+      "cImg2": "/src/assets/product-2.png",
+      "cImg3": "/src/assets/product-3.png",
+      "cImg4": "/src/assets/product-4.png"
+    },
     "category": "vest",
-    "price": "$1",
+    "price": "$999",
     "comingsoon": true,
     "color": {
       "black": "/src/assets/color-1.png",
@@ -16,6 +22,19 @@
       "medium": "M",
       "large": "L",
       "extraLarge": "XL"
+    },
+    "message": {
+      "title": "Description",
+      "desc": "Designed for running, training, and discreet enough for causal wear. This Ts durable mesh fabric was constructed with athletes in mind to train hard while feeling and looking good.",
+      "detail": {
+        "title": "Care",
+        "text1": "100% Cotton",
+        "text2": "Machine Wash Cold",
+        "text3": "Wash With Like Colors",
+        "text4": "Tumble Dry Low",
+        "text5": "Medium Iron",
+        "text6": "Do Not Dry Clean"
+      }
     }
   },
   {
@@ -57,7 +76,7 @@
     "id": 5,
     "product": "Weight Vests",
     "image": "/src/assets/tshirt1.png",
-    "category": "pants",
+    "category": "vest",
     "price": "$5",
     "comingsoon": false
   },
