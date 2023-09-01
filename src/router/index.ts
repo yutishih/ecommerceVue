@@ -51,7 +51,7 @@ const router = createRouter({
       component: FullCollectionView,
     },
     {
-      path: "/products/:id",
+      path: "/products/productId=:id",
       name: "products",
       component: ProductsView,
     },
