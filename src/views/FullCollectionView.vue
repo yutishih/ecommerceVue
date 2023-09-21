@@ -48,7 +48,7 @@ onUnmounted(() => {
           v-for="item in fullCollection.slice(0, displayedItems)"
           :key="item.product"
         >
-          <a href="#">
+          <a :href="'#/products/productId=' + item.id">
             <div class="coming-soon-tag" v-if="item.comingsoon">
               COMING SOON
             </div>

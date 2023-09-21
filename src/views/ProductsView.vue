@@ -336,6 +336,7 @@ const recommendedItems = computed(() => {
   color: #111;
 }
 .item-wrap img {
+  max-width: 360px;
   min-width: 250px;
   width: 100%;
 }

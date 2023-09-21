@@ -2,7 +2,7 @@
   {
     "id": 1,
     "product": "Heria Metal Logo Tee - Black",
-    "image": "/src/assets/tshirt1.png",
+    "image": "/src/assets/product-1.png",
     "carouselImg": {
       "cImg1": "/src/assets/product-1.png",
       "cImg2": "/src/assets/product-2.png",
