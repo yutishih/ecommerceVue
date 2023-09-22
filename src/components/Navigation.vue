@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from "vue-router";
 import navBarItems from "@/assets/NavBarItems.json";
 import { computed, ref, onMounted, onUnmounted } from "vue";
+import ShoppingCart from "./ShoppingCart.vue";
 
 //White background for header when scrolling down
 const scrolled = ref(false);
@@ -64,14 +65,14 @@ const productsInCart = ref([
     image: "../assets/vest-sm.png",
     type: "Black",
   },
-  {
-    id: 2,
-    name: "35LB Weight Vest - white",
-    price: 99.99,
-    quantity: 1,
-    image: "../assets/vest-sm.png",
-    type: "White",
-  },
+  // {
+  //   id: 2,
+  //   name: "35LB Weight Vest - white",
+  //   price: 99.99,
+  //   quantity: 1,
+  //   image: "../assets/vest-sm.png",
+  //   type: "White",
+  // },
   // ... Add more products as needed
 ]);
 
@@ -223,55 +224,12 @@ const subtotal = computed(() => {
             <p>Your cart is currently empty.</p>
           </div>
           <div v-else class="product-wrap">
-            <div>
-              <div class="product-list">
-                <div
-                  v-for="product in productsInCart"
-                  :key="product.id"
-                  class="product-item"
-                >
-                  <div class="product-image">
-                    <img src="../assets/vest-sm.png" />
-                    <div
-                      class="remove-item"
-                      @click="removeFromCart(product.id)"
-                    >
-                      Remove
-                    </div>
-                  </div>
-                  <div class="product-info">
-                    <div class="product-name p-item">
-                      {{ product.name }}
-                    </div>
-                    <div class="product-type p-item">{{ product.type }}</div>
-                    <div class="product-price p-item">
-                      ${{ product.price.toFixed(2) }}
-                    </div>
-                    <div class="product-quantity p-item">
-                      <a @click="decrement(product.id)"
-                        ><i class="fa-solid fa-minus"></i
-                      ></a>
-                      <input type="number" min="0" v-model="product.quantity" />
-                      <a @click="increment(product.id)"
-                        ><i class="fa-solid fa-plus"></i
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="subtotal">
-                  <p>Subtotal</p>
-                  <p>${{ subtotal.toFixed(2) }}</p>
-                </div>
-                <div class="shipping-message">
-                  Shipping & taxes calculated at checkout
-                </div>
-              </div>
-              <div class="payment-option">
-                <div><a>CHECK OUT</a></div>
-                <div><a>SHOP Pay</a></div>
-                <div><a>Paypal</a></div>
-                <div><a>G Pay</a></div>
-              </div>
+            <ShoppingCart />
+            <div class="payment-option">
+              <div><a>CHECK OUT</a></div>
+              <div><a>SHOP Pay</a></div>
+              <div><a>Paypal</a></div>
+              <div><a>G Pay</a></div>
             </div>
           </div>
         </div>
@@ -296,6 +254,7 @@ const subtotal = computed(() => {
   color: #505050;
 }
 
+/* cart css start */
 .payment-option {
   text-align: center;
 }
@@ -371,6 +330,7 @@ const subtotal = computed(() => {
 .product-image img {
   width: 60px;
 }
+/* cart css end */
 .navigation-header {
   position: fixed;
   width: 100%;

@@ -10,7 +10,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
-    "vue": "^3.3.4",
+    "vue": "^3.2.36",
     "vue-router": "^4.2.4",
     "vue3-carousel": "^0.3.1",
     "vuex": "^4.0.2"
