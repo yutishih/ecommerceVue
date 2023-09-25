@@ -55,73 +55,6 @@ const handleOverlayClick = () => {
   isCartToggleOn.value = false;
   document.body.style.overflow = "";
 };
-//Products in cart
-const productsInCart = ref([
-  {
-    id: 1,
-    name: "35LB Weight Vest - Black",
-    price: 189.99,
-    quantity: 1,
-    image: "../assets/vest-sm.png",
-    type: "Black",
-  },
-  // {
-  //   id: 2,
-  //   name: "35LB Weight Vest - white",
-  //   price: 99.99,
-  //   quantity: 1,
-  //   image: "../assets/vest-sm.png",
-  //   type: "White",
-  // },
-  // ... Add more products as needed
-]);
-
-// increase/decrease the product quantity
-const increment = (productId: number) => {
-  const product = productsInCart.value.find((p) => p.id === productId);
-  if (product) product.quantity += 1;
-};
-
-const decrement = (productId: number) => {
-  const product = productsInCart.value.find((p) => p.id === productId);
-  if (product) {
-    if (product.quantity > 0) {
-      product.quantity -= 1;
-      // Check if the product's quantity is now 0, when 0, remove the product
-      if (product.quantity === 0) {
-        removeFromCart(productId);
-      }
-    }
-  }
-};
-
-// add/remove the product
-const addToCart = (product: {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  type: string;
-}) => {
-  const existingProduct = productsInCart.value.find((p) => p.id === product.id);
-  if (existingProduct) {
-    existingProduct.quantity += product.quantity;
-  } else {
-    productsInCart.value.push(product);
-  }
-};
-const removeFromCart = (productId: number) => {
-  const index = productsInCart.value.findIndex((p) => p.id === productId);
-  if (index !== -1) productsInCart.value.splice(index, 1);
-};
-// get total price
-const subtotal = computed(() => {
-  return productsInCart.value.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
-});
 </script>
 
 <template>
@@ -220,10 +153,7 @@ const subtotal = computed(() => {
         </div>
 
         <div>
-          <div v-if="productsInCart.length <= 0" class="empty-cart-message">
-            <p>Your cart is currently empty.</p>
-          </div>
-          <div v-else class="product-wrap">
+          <div class="product-wrap">
             <ShoppingCart />
             <div class="payment-option">
               <div><a>CHECK OUT</a></div>
@@ -482,9 +412,6 @@ header {
 }
 .navigation-drawer .mobile-user-wrap li a {
   color: #636363;
-}
-.empty-cart-message {
-  padding: 30px;
 }
 .overlay-dark-bg {
   position: fixed;

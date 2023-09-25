@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { type Ref, ref, computed, watch } from "vue";
+import { type Ref, ref, computed, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
-import fullCollection from "@/assets/FullCollection.json";
+import type { ProductTypes } from "../types/ProductTypes";
 
 const currentSlide = ref(0);
 const slideTo = (val: number) => {
@@ -14,6 +15,44 @@ const slideTo = (val: number) => {
 const route = useRoute();
 const productId = route.params.id;
 
+//vuex store
+const store = useStore();
+const fullCollection = ref([]);
+const selectedProduct: Ref<ProductTypes> = ref(null);
+
+onMounted(async () => {
+  try {
+    const response = await fetch("/FullCollection.json");
+    if (!response.ok) throw new Error("Failed to load products");
+    fullCollection.value = await response.json();
+    filterSelectedProduct();
+  } catch (error) {
+    console.error(error);
+  }
+});
+const filterSelectedProduct = () => {
+  selectedProduct.value = fullCollection.value.find(
+    (product) => product.id === Number(productId)
+  );
+};
+
+const cart = computed(() => store.state.cart);
+
+const quantity = ref(1);
+const addToCart = (product: ProductTypes) => {
+  if (product) {
+    store.commit("addToCart", {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: quantity.value,
+      image: product.image,
+    });
+    // Store the item into local, the rest code is in ShoppingCart.vue
+    localStorage.setItem("cart", JSON.stringify(store.state.cart));
+  }
+};
+
 //watch the params
 watch(
   () => route.params.id,
@@ -22,43 +61,11 @@ watch(
   }
 );
 
-// Define the type for a product and make it nullable and allow undefined
-type ProductType =
-  | {
-      id: number;
-      product: string;
-      image: string;
-      carouselImg?: Record<string, string>;
-      category: string;
-      price: string;
-      comingsoon: boolean;
-      color?: Record<string, string>;
-      size?: Record<string, string>;
-      message?: {
-        title: string;
-        desc: string;
-        detail: Record<string, string>;
-      };
-    }
-  | null
-  | undefined;
-
-const selectedProduct: Ref<ProductType> = ref(null);
-
-// Filter the product with id = 1
-// const filterSelectedProduct = () => {
-//   selectedProduct.value = fullCollection.find((product) => product.id === 1);
-// };
-const filterSelectedProduct = () => {
-  selectedProduct.value = fullCollection.find(
-    (product) => product.id === Number(productId)
-  );
-};
-filterSelectedProduct();
-
 //Filtered items for recommendations
 const recommendedItems = computed(() => {
-  return fullCollection.filter((item) => item.category === "vest").slice(0, 4);
+  return fullCollection.value
+    .filter((item) => item.category === "vest")
+    .slice(0, 4);
 });
 </script>
 
@@ -107,22 +114,23 @@ const recommendedItems = computed(() => {
           <div class="items-information">
             <form>
               <h5>FULL COLLECTION</h5>
-              <h2>{{ selectedProduct.product }}</h2>
-              <p>{{ selectedProduct.price }}</p>
+              <h2>{{ selectedProduct.name }}</h2>
+              <p>${{ selectedProduct.price }}</p>
               <div class="color-selection">
                 <h5>Color</h5>
                 <div class="color_wrap">
                   <div
                     class="color_wrap_padding"
-                    v-for="(colorImageUrl, colorName) in selectedProduct.color"
+                    v-for="(colorObj, colorName) in selectedProduct.color"
                     :key="colorName"
                   >
-                    <a>
+                    <a :href="colorObj.colorUrl">
                       <span>
                         <div
                           class="color-selection-bg-image"
                           :style="{
-                            'background-image': 'url(' + colorImageUrl + ')',
+                            'background-image':
+                              'url(' + colorObj.colorImg + ')',
                           }"
                         ></div>
                       </span>
@@ -145,7 +153,6 @@ const recommendedItems = computed(() => {
                         type="radio"
                         name="Size"
                         :value="sizeCode"
-                        checked
                       />
                       <label
                         class="variant__button-label"
@@ -157,10 +164,17 @@ const recommendedItems = computed(() => {
                 </div>
               </div>
               <div class="quantity-selection">
-                <input type="number" min="1" placeholder="QUANTITY" />
+                <input
+                  type="number"
+                  min="1"
+                  v-model.number="quantity"
+                  placeholder="QUANTITY"
+                />
               </div>
               <div class="add-to-cart-button">
-                <button>ADD TO CART</button>
+                <button @click.prevent="addToCart(selectedProduct)">
+                  ADD TO CART
+                </button>
               </div>
             </form>
             <div class="items-desc">
@@ -196,8 +210,8 @@ const recommendedItems = computed(() => {
                 <a href="#">
                   <img :src="item.image" />
                   <div class="text-wrap">
-                    <h4>{{ item.product }}</h4>
-                    <p>{{ item.price }}</p>
+                    <h4>{{ item.name }}</h4>
+                    <p>${{ item.price }}</p>
                   </div>
                 </a>
               </div>
@@ -288,6 +302,7 @@ const recommendedItems = computed(() => {
   border: none;
   font-size: 16px;
   padding: 20px;
+  cursor: pointer;
 }
 .items-desc {
   padding: 20px 0;

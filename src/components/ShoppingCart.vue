@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
+import type { ProductTypes } from "../types/ProductTypes";
 
 const store = useStore();
 
@@ -20,20 +21,36 @@ const cart = computed(() => store.state.cart);
 const addToCart = (product: { id: number; name: string; price: number }) => {
   store.commit("addToCart", product);
 };
+const incrementFromCart = (productId: number) => {
+  store.commit("incrementFromCart", productId);
+};
+const decrementFromCart = (productId: number) => {
+  store.commit("decrementFromCart", productId);
+};
 const removeFromCart = (productId: number) => {
   store.commit("removeFromCart", productId);
 };
+const summaryFromCart = computed(() => store.getters.summaryFromCart);
+
+// Load cart from localStorage when component is mounted
+onMounted(() => {
+  const savedCart = localStorage.getItem("cart");
+  if (savedCart) {
+    store.commit("loadCart", JSON.parse(savedCart));
+  }
+});
+// Watch the cart and save to localStorage whenever it changes
+watch(
+  cart,
+  (newCart) => {
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  },
+  { deep: true }
+);
 </script>
 
 <template>
-  <div class="ttt">
-    <!-- purchase -->
-    <div v-for="product in products" :key="product.id" class="product">
-      <h2>{{ product.name }}</h2>
-      <p>{{ product.price }}</p>
-      <button @click="addToCart(product)">Add to Cart</button>
-    </div>
-
+  <div class="shopping-cart-wrap">
     <div>
       <div v-if="cart.length <= 0" class="empty-cart-message">
         <p>Your cart is currently empty.</p>
@@ -43,26 +60,30 @@ const removeFromCart = (productId: number) => {
           <div v-for="item in cart" :key="item.id" class="product-item">
             <div class="product-image">
               <img :src="item.image" />
-              <div class="remove-item">Remove</div>
+              <div @click="removeFromCart(item.id)" class="remove-item">
+                Remove
+              </div>
             </div>
             <div class="product-info">
               <div class="product-name p-item">
                 {{ item.name }}
               </div>
               <div class="product-type p-item">{{ item.type }}</div>
-              <div class="product-price p-item">{{ item.price }}</div>
+              <div class="product-price p-item">${{ item.price }}</div>
               <div class="product-quantity p-item">
-                <a @click="removeFromCart(item.id)"
+                <a @click="decrementFromCart(item.id)"
                   ><i class="fa-solid fa-minus"></i
                 ></a>
                 <input type="number" min="0" v-model="item.quantity" />
-                <a><i class="fa-solid fa-plus"></i></a>
+                <a @click="incrementFromCart(item.id)"
+                  ><i class="fa-solid fa-plus"></i
+                ></a>
               </div>
             </div>
           </div>
           <div class="subtotal">
             <p>Subtotal</p>
-            <p>$summary</p>
+            <p>${{ summaryFromCart }}</p>
           </div>
           <div class="shipping-message">
             Shipping & taxes calculated at checkout
@@ -148,5 +169,8 @@ const removeFromCart = (productId: number) => {
 }
 .product-image img {
   width: 60px;
+}
+.empty-cart-message {
+  padding: 30px;
 }
 </style>
