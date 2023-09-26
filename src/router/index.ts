@@ -4,6 +4,8 @@ import TestView from "../views/TestView.vue";
 import SignupView from "../views/SignupView.vue";
 import LoginView from "../views/LoginView.vue";
 import ForgetPasswordView from "../views/ForgetPasswordView.vue";
+import SummerCollectionView from "../views/SummerCollectionView.vue";
+import FallCollectionView from "../views/FallCollectionView.vue";
 import FullCollectionView from "../views/FullCollectionView.vue";
 import ProductsView from "../views/ProductsView.vue";
 
@@ -44,6 +46,16 @@ const router = createRouter({
       path: "/forget-password",
       name: "forget-password",
       component: ForgetPasswordView,
+    },
+    {
+      path: "/summer-collection",
+      name: "summer-collection",
+      component: SummerCollectionView,
+    },
+    {
+      path: "/fall-collection",
+      name: "fall-collection",
+      component: FallCollectionView,
     },
     {
       path: "/full-collection",

@@ -15,7 +15,7 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
             Improve your running speed, endurance, and muscular strength with a
             Heria weight vest.
           </p>
-          <a href="#">SHOP NOW</a>
+          <a href="/#/full-collection">SHOP NOW</a>
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
               Exceptional softness and luxurious cotton fabrics paired with
               original designs.
             </p>
-            <a href="#">SHOP NOW</a>
+            <a href="/#/full-collection">SHOP NOW</a>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
       <div class="content-wrap">
         <div class="background-image">
           <div class="text-wrap">
-            <a href="#">SHOP NOW</a>
+            <a href="/#/full-collection">SHOP NOW</a>
           </div>
         </div>
       </div>
@@ -178,6 +178,11 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
   background-color: #111;
   padding: 15px 40px;
   border: 0px;
+  transition: color 0.3s, background-color 0.3s;
+}
+.sub-banner-2 .text-wrap a:hover {
+  background-color: #fff;
+  color: #111;
 }
 
 .sub-banner-3 .background-image {
@@ -212,6 +217,11 @@ import ProductTshirtCarousel from "../components/ProductTshirtCarousel.vue";
   background-color: #111;
   padding: 15px 40px;
   border: 0px;
+  transition: color 0.3s, background-color 0.3s;
+}
+.sub-banner-3 .text-wrap a:hover {
+  color: #111;
+  background-color: #fff;
 }
 @media only screen and (max-width: 768px) {
   .main-banner-img {

@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import vest from "@/assets/Vest.json";
+import items from "@/assets/FullCollection.json";
 </script>
 
 <template>
   <div class="product-section-1">
     <div class="product-width">
       <div class="product-wrap">
-        <div class="product-item" v-for="item in vest" :key="item.product">
-          <div class="coming-soon-tag" v-if="item.comingsoon">COMING SOON</div>
-          <img :src="item.image" />
-          <div class="text-wrap">
-            <h4>{{ item.product }}</h4>
-            <p>{{ item.price }}</p>
-          </div>
+        <div class="product-item" v-for="item in items" :key="item.name">
+          <a :href="'#/products/productId=' + item.id">
+            <div class="coming-soon-tag" v-if="item.comingsoon">
+              COMING SOON
+            </div>
+            <img :src="item.image" />
+            <div class="text-wrap">
+              <h4>{{ item.name }}</h4>
+              <p>${{ item.price }}</p>
+            </div>
+          </a>
         </div>
       </div>
-      <div class="product-button"><a>VIEW COLLECTION</a></div>
+      <div class="product-button">
+        <a href="/#/full-collection">VIEW COLLECTION</a>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +49,13 @@ import vest from "@/assets/Vest.json";
 }
 .product-item img {
   width: 100%;
+  max-height: 335px;
+  height: 100%;
+  object-fit: contain;
+}
+.product-item a {
+  text-decoration: none;
+  color: #111;
 }
 .text-wrap {
   text-align: center;
@@ -52,9 +65,16 @@ import vest from "@/assets/Vest.json";
   text-align: center;
 }
 .product-button a {
+  text-decoration: none;
   padding: 10px 20px;
   background-color: #111;
   color: #fff;
+  border: 1px solid #111;
+  transition: color 0.3s, background-color 0.3s;
+}
+.product-button a:hover {
+  background-color: #fff;
+  color: #111;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -62,6 +82,12 @@ import vest from "@/assets/Vest.json";
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem 1rem;
+  }
+  .product-item {
+    padding-bottom: 50px;
+  }
+  .product-item img {
+    max-height: 300px;
   }
 }
 </style>

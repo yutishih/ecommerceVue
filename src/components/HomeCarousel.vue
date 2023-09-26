@@ -123,6 +123,11 @@ const breakpoints = ref({
   font-size: 14px;
   background-color: #111;
   padding: 10px 20px;
+  transition: color 0.3s, background-color 0.3s;
+}
+.cta-button:hover {
+  color: #111;
+  background-color: #fff;
 }
 @media only screen and (max-width: 1600px) {
   .featured-category-item {

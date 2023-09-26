@@ -17,7 +17,7 @@ const productId = route.params.id;
 
 //vuex store
 const store = useStore();
-const fullCollection = ref([]);
+const fullCollection: Ref<ProductTypes[]> = ref([]);
 const selectedProduct: Ref<ProductTypes> = ref(null);
 
 onMounted(async () => {
@@ -32,7 +32,7 @@ onMounted(async () => {
 });
 const filterSelectedProduct = () => {
   selectedProduct.value = fullCollection.value.find(
-    (product) => product.id === Number(productId)
+    (product) => product?.id === Number(productId)
   );
 };
 
@@ -64,7 +64,7 @@ watch(
 //Filtered items for recommendations
 const recommendedItems = computed(() => {
   return fullCollection.value
-    .filter((item) => item.category === "vest")
+    .filter((item) => item?.category === "vest")
     .slice(0, 4);
 });
 </script>
@@ -202,16 +202,16 @@ const recommendedItems = computed(() => {
         </div>
         <div class="item-display">
           <div class="item-display-wrap">
-            <div v-for="item in recommendedItems" :key="item.id">
+            <div v-for="item in recommendedItems" :key="item?.id">
               <div class="item-wrap">
-                <div class="coming-soon-tag" v-if="item.comingsoon">
+                <div class="coming-soon-tag" v-if="item?.comingsoon">
                   COMING SOON
                 </div>
                 <a href="#">
-                  <img :src="item.image" />
+                  <img :src="item?.image" />
                   <div class="text-wrap">
-                    <h4>{{ item.name }}</h4>
-                    <p>${{ item.price }}</p>
+                    <h4>{{ item?.name }}</h4>
+                    <p>${{ item?.price }}</p>
                   </div>
                 </a>
               </div>
@@ -299,10 +299,15 @@ const recommendedItems = computed(() => {
   width: 75%;
   color: #fff;
   background-color: #111;
-  border: none;
+  border: 1px solid #111;
   font-size: 16px;
   padding: 20px;
   cursor: pointer;
+  transition: color 0.3s, background-color 0.3s;
+}
+.add-to-cart-button button:hover {
+  background-color: #fff;
+  color: #111;
 }
 .items-desc {
   padding: 20px 0;

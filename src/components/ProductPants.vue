@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { effect, ref } from "vue";
-import pants from "@/assets/Pants.json";
+import { ref } from "vue";
+import pants from "@/assets/FullCollection.json";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 
@@ -30,17 +30,17 @@ const breakpoints = ref({
         :wrap-around="true"
         :mouseDrag="false"
       >
-        <Slide v-for="item in pants" :key="item.product">
+        <Slide v-for="item in pants" :key="item.name">
           <div class="carousel__item">
             <div class="item-wrap">
               <div class="coming-soon-tag" v-if="item.comingsoon">
                 COMING SOON
               </div>
-              <a href="#"
+              <a :href="'#/products/productId=' + item.id"
                 ><img :src="item.image" />
                 <div class="text-wrap">
-                  <h4>{{ item.product }}</h4>
-                  <p>{{ item.price }}</p>
+                  <h4>{{ item.name }}</h4>
+                  <p>${{ item.price }}</p>
                 </div>
               </a>
             </div>
@@ -68,6 +68,9 @@ const breakpoints = ref({
 }
 .product-wrap-pants img {
   width: 100%;
+  max-height: 300px;
+  height: 100%;
+  object-fit: contain;
 }
 .text-wrap {
   text-align: center;

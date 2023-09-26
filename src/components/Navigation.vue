@@ -433,5 +433,8 @@ header {
     align-items: center;
     z-index: 99;
   }
+  .navigation-drawer .mobile-page-wrap li a {
+    font-size: 24px;
+  }
 }
 </style>
