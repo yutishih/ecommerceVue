@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import navBarItems from "@/assets/NavBarItems.json";
-import { computed, ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import ShoppingCart from "./ShoppingCart.vue";
+import Search from "./Search.vue";
 
 //White background for header when scrolling down
 const scrolled = ref(false);
@@ -27,6 +28,16 @@ const props = defineProps({
     default: false,
   },
 });
+//Locking the scroll when Search menu is toggled on
+const isSearchToggleOn = ref(false);
+const handleSearchToggle = () => {
+  isSearchToggleOn.value = !isSearchToggleOn.value;
+  if (isSearchToggleOn.value) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+};
 
 //Locking the scroll when mobile menu is toggled on
 const isNavToggleOn = ref(false);
@@ -61,13 +72,14 @@ const handleOverlayClick = () => {
   <div :class="{ 'white-bg': scrolled }" class="navigation-header">
     <header :class="{ 'dark-text-navbar': props.darkTextStyle }">
       <div class="logo-wrap">
-        <img
-          alt="Vue logo"
-          class="logo"
-          src="@/assets/logo.svg"
-          width="50"
-          height="50"
-        />
+        <a href="/#/">
+          <img
+            alt="Vue logo"
+            class="logo"
+            src="@/assets/logo.svg"
+            width="50"
+            height="50"
+        /></a>
       </div>
       <div class="nav-wrap">
         <nav class="nav-flex">
@@ -80,6 +92,7 @@ const handleOverlayClick = () => {
             <div
               :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
               class="header-icon-item header-icon-size search"
+              @click="handleSearchToggle"
             >
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
@@ -170,10 +183,19 @@ const handleOverlayClick = () => {
         @click="handleOverlayClick"
       ></div>
     </header>
+    <div class="search-bar" :class="{ show: isSearchToggleOn }">
+      <Search @close-search="handleSearchToggle" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.search-bar {
+  display: none;
+}
+.search-bar.show {
+  display: block;
+}
 .dark-text-navbar .nav-wrap ul li a {
   color: #505050;
 }

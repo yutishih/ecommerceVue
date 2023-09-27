@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import type { ProductTypes } from "../types/ProductTypes";
 
 const store = useStore();
 
