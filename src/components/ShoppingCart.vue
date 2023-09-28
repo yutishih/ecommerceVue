@@ -94,16 +94,6 @@ watch(
 </template>
 
 <style scoped>
-.payment-option {
-  text-align: center;
-}
-.payment-option a {
-  display: block;
-  color: #fff;
-  margin: 10px 20px;
-  padding: 10px 40px;
-  background-color: #363636;
-}
 .product-quantity {
   display: flex;
   justify-content: center;
@@ -150,6 +140,8 @@ watch(
   padding: 0 10px;
 }
 .p-item {
+  max-width: 150px;
+  width: 100%;
   padding-bottom: 2px;
 }
 .subtotal {

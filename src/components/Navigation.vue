@@ -149,10 +149,11 @@ const handleOverlayClick = () => {
             <RouterLink :to="item.link">{{ item.name }}</RouterLink>
           </li>
         </ul>
-        <ul class="mobile-user-wrap">
-          <li><a>Log in</a></li>
-          <li><a>Create account</a></li>
-          <li><a>Search</a></li>
+        <!-- Event Delegation -->
+        <ul class="mobile-user-wrap" @click="handleNavToggle">
+          <li><a href="/#/login">Log in</a></li>
+          <li><a href="/#/signup">Create account</a></li>
+          <li><a @click="handleSearchToggle">Search</a></li>
         </ul>
       </div>
       <div class="mobile-cart-drawer" :class="{ show: isCartToggleOn }">
@@ -205,8 +206,6 @@ const handleOverlayClick = () => {
 .dark-text-navbar .nav-wrap-mobile .black-bg svg {
   color: #505050;
 }
-
-/* cart css start */
 .payment-option {
   text-align: center;
 }
@@ -217,72 +216,6 @@ const handleOverlayClick = () => {
   padding: 10px 40px;
   background-color: #363636;
 }
-.product-quantity {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 100px;
-  min-width: 90px;
-}
-.product-quantity a {
-  font-size: 18px;
-  cursor: pointer;
-}
-.product-quantity input[type="number"] {
-  width: 100%;
-  font-size: 16px;
-  text-align: center;
-  background: none;
-  border: none;
-  outline: none;
-  margin: 0;
-  padding: 0;
-  box-shadow: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-.product-quantity input[type="number"]::-webkit-inner-spin-button,
-.product-quantity input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.product-type {
-  color: #969696;
-}
-.product-list {
-  padding-top: 20px;
-}
-.product-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 30px;
-}
-.product-info {
-  padding: 0 10px;
-}
-.p-item {
-  padding-bottom: 2px;
-}
-.subtotal {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px 10px 20px;
-}
-.shipping-message {
-  padding: 0 20px 10px 20px;
-  font-size: 12px;
-}
-.remove-item {
-  font-size: 12px;
-  cursor: pointer;
-}
-.product-image img {
-  width: 60px;
-}
-/* cart css end */
 .navigation-header {
   position: fixed;
   width: 100%;
@@ -434,6 +367,7 @@ header {
 }
 .navigation-drawer .mobile-user-wrap li a {
   color: #636363;
+  cursor: pointer;
 }
 .overlay-dark-bg {
   position: fixed;
