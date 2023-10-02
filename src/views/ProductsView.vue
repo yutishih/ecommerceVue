@@ -41,7 +41,7 @@ const cart = computed(() => store.state.cart);
 const quantity = ref(1);
 const addToCart = (product: ProductTypes) => {
   if (product) {
-    store.commit("addToCart", {
+    store.commit("moduleCart/addToCart", {
       id: product.id,
       name: product.name,
       price: product.price,
@@ -49,7 +49,7 @@ const addToCart = (product: ProductTypes) => {
       image: product.image,
     });
     // Store the item into local, the rest code is in ShoppingCart.vue
-    localStorage.setItem("cart", JSON.stringify(store.state.cart));
+    localStorage.setItem("cart", JSON.stringify(store.state.moduleCart.cart));
   }
 };
 

@@ -3,6 +3,23 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
+const cart = computed(() => store.state.moduleCart.cart);
+const summaryFromCart = computed(
+  () => store.getters["moduleCart/summaryFromCart"]
+);
+// const addToCart = (product: { id: number; name: string; price: number }) => {
+//   store.commit("moduleCart/addToCart", product);
+// };
+const incrementFromCart = (productId: number) => {
+  console.log(productId);
+  store.commit("moduleCart/incrementFromCart", productId);
+};
+const decrementFromCart = (productId: number) => {
+  store.commit("moduleCart/decrementFromCart", productId);
+};
+const removeFromCart = (productId: number) => {
+  store.commit("moduleCart/removeFromCart", productId);
+};
 
 const products = ref([]);
 onMounted(async () => {
@@ -15,27 +32,23 @@ onMounted(async () => {
   }
 });
 
-const cart = computed(() => store.state.cart);
-
-const addToCart = (product: { id: number; name: string; price: number }) => {
-  store.commit("addToCart", product);
-};
-const incrementFromCart = (productId: number) => {
-  store.commit("incrementFromCart", productId);
-};
-const decrementFromCart = (productId: number) => {
-  store.commit("decrementFromCart", productId);
-};
-const removeFromCart = (productId: number) => {
-  store.commit("removeFromCart", productId);
-};
-const summaryFromCart = computed(() => store.getters.summaryFromCart);
-
 // Load cart from localStorage when component is mounted
 onMounted(() => {
-  const savedCart = localStorage.getItem("cart");
+  const savedCart = localStorage.getItem("cart") || "[]";
+  //Check if the cart data is an array
   if (savedCart) {
-    store.commit("loadCart", JSON.parse(savedCart));
+    try {
+      const parsedCart = JSON.parse(savedCart);
+      if (Array.isArray(parsedCart)) {
+        store.commit("moduleCart/loadCart", parsedCart);
+      } else {
+        console.error("Invalid cart data:", parsedCart);
+        store.commit("moduleCart/loadCart", []);
+      }
+    } catch (e) {
+      console.error("Failed to parse cart data:", e);
+      store.commit("moduleCart/loadCart", []);
+    }
   }
 });
 // Watch the cart and save to localStorage whenever it changes
