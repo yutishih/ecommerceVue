@@ -1,4 +1,8 @@
 const state = {
-  user: null,
+  user: {
+    email: null,
+    token: null,
+    isLoggedIn: false,
+  },
 };
 export default state;

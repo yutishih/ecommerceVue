@@ -1,20 +1,42 @@
-<script lang="ts">
-export default {
-  data() {
-    return {
-      email: "",
-      password: "",
+<script setup lang="ts">
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
+const email = ref("");
+const password = ref("");
+const store = useStore();
+const router = useRouter();
+
+//Randomly generate a token(not secure)
+function generateRandomToken(length = 32) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
+const handleLogin = () => {
+  if (email.value === "admin" && password.value === "admin") {
+    const FIXED_TOKEN = generateRandomToken(64);
+    const user = {
+      email: email.value,
+      token: FIXED_TOKEN,
     };
-  },
-  methods: {
-    handleLogin() {
-      // Here, you can process the input.
-      // For this example, I'll just log the entered data.
-      console.log("Username:", this.email);
-      console.log("Password:", this.password);
-      // Typically, you'd send this data to a server for authentication.
-    },
-  },
+    store.dispatch("moduleMember/login", user);
+    console.log("logged in successfully");
+    console.log("Is logged in:", store.state.moduleMember.user.isLoggedIn);
+    router.push("/");
+  } else {
+    console.error("Invalid email or password");
+  }
+};
+
+const handleLogout = () => {
+  store.dispatch("moduleMember/logout");
 };
 </script>
 

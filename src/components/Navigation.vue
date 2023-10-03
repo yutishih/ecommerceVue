@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import navBarItems from "@/assets/NavBarItems.json";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import ShoppingCart from "./ShoppingCart.vue";
 import Search from "./Search.vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 //White background for header when scrolling down
 const scrolled = ref(false);
@@ -66,10 +68,26 @@ const handleOverlayClick = () => {
   isCartToggleOn.value = false;
   document.body.style.overflow = "";
 };
+
+// Log out
+const store = useStore();
+const router = useRouter();
+const isLoggedIn = computed(() => store.state.moduleMember.user.isLoggedIn);
+const handleLogOutClick = () => {
+  if (!isLoggedIn.value) {
+    router.push("/login");
+  }
+  store.dispatch("moduleMember/logout");
+};
 </script>
 
 <template>
-  <div :class="{ 'white-bg': scrolled }" class="navigation-header">
+  <!-- 使用:key="isLoggedIn"來強迫整個導覽列重新渲染以更新isLoggedIn狀態 -->
+  <div
+    :class="{ 'white-bg': scrolled }"
+    class="navigation-header"
+    :key="isLoggedIn"
+  >
     <header :class="{ 'dark-text-navbar': props.darkTextStyle }">
       <div class="logo-wrap">
         <a href="/#/">
@@ -96,7 +114,7 @@ const handleOverlayClick = () => {
             >
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <a href="#/login"
+            <a @click="handleLogOutClick"
               ><div
                 :class="{ 'white-bg': scrolled, 'black-bg': !scrolled }"
                 class="header-icon-item header-icon-size user"
